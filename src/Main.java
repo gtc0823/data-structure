@@ -14,19 +14,18 @@ public class Main
 {
 	public static void main(String[] args) throws IOException
 	{
-		WebPage rootPage = new WebPage("http://soslab.nccu.edu.tw/Welcome.html", "Soslab");		
+		
+		WebPage rootPage = new WebPage("https://www.goldenhorse.org.tw/", "台北金馬影展");		
 		WebTree tree = new WebTree(rootPage);
 		
 		//build childnode
-		tree.root.addChild(new WebNode(new WebPage("http://soslab.nccu.edu.tw/Publications.html","Publication")));
-		tree.root.addChild(new WebNode(new WebPage("http://soslab.nccu.edu.tw/Projects.html","Projects")));
-		tree.root.children.get(1).addChild(new WebNode(new WebPage("https://vlab.cs.ucsb.edu/stranger/", "Stranger")));
-		tree.root.addChild(new WebNode(new WebPage("http://soslab.nccu.edu.tw/Members.html", "Member")));
-		tree.root.addChild(new WebNode(new WebPage("http://www3.nccu.edu.tw/~yuf/course.htm","Course")));
+		tree.root.addChild(new WebNode(new WebPage("https://www.goldenhorse.org.tw/awards/nw/?serach_type=award&sc=8&search_regist_year=2023&ins=52","入圍得獎")));
+		
 		
             // 創建關鍵字列表（name, weight）
         ArrayList<Keyword> Keywords = new ArrayList<>();
-        Keywords.add(new Keyword("金馬獎", 7.0));
+        Keywords.add(new Keyword("金馬獎", 10.0));
+        Keywords.add(new Keyword("最佳", 8.0));  
         Keywords.add(new Keyword("推薦", 6.0));
         Keywords.add(new Keyword("熱門", 6.0));            
         Keywords.add(new Keyword("獲獎", 5.0));           
