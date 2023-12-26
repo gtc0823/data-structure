@@ -32,11 +32,12 @@ public class WebNode
 		}
 	}
 
+	
 	public void addChild(WebNode child)
 	{
 		// add the WebNode to its children list
 		this.children.add(child);
-		child.parent = this;
+		//child.parent = this;
 	}
 
 	public boolean isTheLastChild()
