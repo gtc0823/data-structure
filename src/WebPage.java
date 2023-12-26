@@ -7,6 +7,7 @@ public class WebPage
 	public String name;
 	public KeywordCounter counter;
 	public double score;
+	 private ArrayList<WebPage> children;
 
 	public WebPage(String url, String name)
 	{
@@ -14,6 +15,10 @@ public class WebPage
 		this.name = name;
 		this.counter = new KeywordCounter(url);
 	}
+	
+	public void addChild(WebPage childPage) {
+        this.children.add(childPage);
+    }
 
 	public void setScore(ArrayList<Keyword> keywords) throws IOException
 	{
