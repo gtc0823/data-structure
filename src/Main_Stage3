@@ -1,0 +1,69 @@
+import java.io.IOException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import java.util.ArrayList;
+import java.util.Scanner;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main
+{
+	public static void main(String[] args) throws IOException
+	{
+		System.out.println("Type a keyword: ");
+		Scanner sc = new Scanner(System.in);
+		while (sc.hasNextLine()) {
+		try {
+			String keyword = sc.nextLine(); 
+			String keyword1 = keyword.replaceAll("\\W",""); 
+            GoogleQuery googleQuery = new GoogleQuery(keyword1);
+            HashMap<String, String> searchResults = googleQuery.query();
+
+            WebPage rootPage = new WebPage("https://www.goldenhorse.org.tw/", "台北金馬影展");
+            WebTree tree = new WebTree(rootPage);
+            
+            KeywordList key = new KeywordList();
+            key.add();
+   		for (String title : searchResults.keySet()) {
+            String url = searchResults.get(title);
+            WebNode newNode = new WebNode(new WebPage(url, title));
+            tree.root.addChild(newNode);
+        }
+
+        tree.setPostOrderScore(key.keywords);
+        tree.eularPrintTree();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+		}
+}
+}
+		
+//		WebPage rootPage = new WebPage("https://www.goldenhorse.org.tw/", "台北金馬影展");		
+//		WebTree tree = new WebTree(rootPage);
+//		KeywordList key = new KeywordList();
+//		 key.add();
+//		//build childnode
+//		tree.root.addChild(new WebNode(new WebPage("https://www.goldenhorse.org.tw/awards/nw/?serach_type=award&sc=8&search_regist_year=2023&ins=52","入圍得獎")));
+//
+//        // 計算分數
+//        tree.setPostOrderScore(key.keywords);
+//
+//        // 顯示結果
+//        tree.eularPrintTree();   
+
+            
+        
+        
+    
+
+				
+		
+
