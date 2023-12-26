@@ -22,23 +22,51 @@ public class Main
 		while (sc.hasNextLine()) {
 		try {
 			String keyword = sc.nextLine(); 
-			String keyword1 = keyword.replaceAll("\\W",""); 
-            GoogleQuery googleQuery = new GoogleQuery(keyword1);
+			//String keyword1 = keyword.replaceAll("\\W",""); 
+            GoogleQuery googleQuery = new GoogleQuery(keyword);
             HashMap<String, String> searchResults = googleQuery.query();
-
-            WebPage rootPage = new WebPage("https://www.goldenhorse.org.tw/", "台北金馬影展");
-            WebTree tree = new WebTree(rootPage);
             
             KeywordList key = new KeywordList();
-            key.add();
-   		for (String title : searchResults.keySet()) {
-            String url = searchResults.get(title);
-            WebNode newNode = new WebNode(new WebPage(url, title));
-            tree.root.addChild(newNode);
-        }
+			key.add();
+			
+            ArrayList<WebPage> webPages = new ArrayList<>();
+            for (String title : searchResults.keySet()) {
+                String url = searchResults.get(title);
+                WebPage webPage = new WebPage(url, title);
+                webPages.add(webPage);
+            }
+            
+            for (WebPage rootPage : webPages) {
+                GoogleQuery subPageQuery = new GoogleQuery(rootPage.name); // 使用網頁標題作為關鍵字搜索
+                HashMap<String, String> subPageResults = subPageQuery.query();
+                for (String subTitle : subPageResults.keySet()) {
+                    String subUrl = subPageResults.get(subTitle);
+                    WebPage subPage = new WebPage(subUrl, subTitle);
+                    rootPage.addChild(subPage); // 將子網頁添加為根節點的子節點
+                }
+            }
+            
+            for (WebPage rootPage : webPages) {
+                WebTree webTree = new WebTree(rootPage);
+                webTree.setPostOrderScore(key.keywords);
+                webTree.eularPrintTree();
+                // 可以在這裡進行其他操作，如節點排名等
+            }
+            
 
-        tree.setPostOrderScore(key.keywords);
-        tree.eularPrintTree();
+//            WebPage rootPage = new WebPage("https://www.goldenhorse.org.tw/", "台北金馬影展");
+//            WebTree tree = new WebTree(rootPage);
+//            
+//            KeywordList key = new KeywordList();
+//            key.add();
+//   		for (String title : searchResults.keySet()) {
+//            String url = searchResults.get(title);
+//            WebNode newNode = new WebNode(new WebPage(url, title));
+//            tree.root.addChild(newNode);
+//        }
+//
+//        tree.setPostOrderScore(key.keywords);
+//        tree.eularPrintTree();
     } catch (IOException e) {
         e.printStackTrace();
     }
@@ -66,4 +94,3 @@ public class Main
 
 				
 		
-
