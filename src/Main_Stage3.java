@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Main
+public class Main_Stage3
 {
 	public static void main(String[] args) throws IOException
 	{
@@ -54,19 +54,6 @@ public class Main
             }
             
 
-//            WebPage rootPage = new WebPage("https://www.goldenhorse.org.tw/", "台北金馬影展");
-//            WebTree tree = new WebTree(rootPage);
-//            
-//            KeywordList key = new KeywordList();
-//            key.add();
-//   		for (String title : searchResults.keySet()) {
-//            String url = searchResults.get(title);
-//            WebNode newNode = new WebNode(new WebPage(url, title));
-//            tree.root.addChild(newNode);
-//        }
-//
-//        tree.setPostOrderScore(key.keywords);
-//        tree.eularPrintTree();
     } catch (IOException e) {
         e.printStackTrace();
     }
@@ -74,18 +61,7 @@ public class Main
 }
 }
 		
-//		WebPage rootPage = new WebPage("https://www.goldenhorse.org.tw/", "台北金馬影展");		
-//		WebTree tree = new WebTree(rootPage);
-//		KeywordList key = new KeywordList();
-//		 key.add();
-//		//build childnode
-//		tree.root.addChild(new WebNode(new WebPage("https://www.goldenhorse.org.tw/awards/nw/?serach_type=award&sc=8&search_regist_year=2023&ins=52","入圍得獎")));
-//
-//        // 計算分數
-//        tree.setPostOrderScore(key.keywords);
-//
-//        // 顯示結果
-//        tree.eularPrintTree();   
+ 
 
             
         
