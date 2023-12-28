@@ -43,6 +43,13 @@ public class Main_Stage3
                     String subUrl = subPageResults.get(subTitle);
                     WebPage subPage = new WebPage(subUrl, subTitle);
                     rootPage.addChild(subPage); // 將子網頁添加為根節點的子節點
+
+			
+                    lcs lcs = new lcs();
+                    lcs.find(subTitle);
+                    for (Keyword derivedKeyword : lcs.lst()) {
+                        key.keywords.add(derivedKeyword);
+                    }
                 }
             }
             
