@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Main_Stage3
+public class Main
 {
 	public static void main(String[] args) throws IOException
 	{
@@ -26,54 +26,37 @@ public class Main_Stage3
             GoogleQuery googleQuery = new GoogleQuery(keyword);
             HashMap<String, String> searchResults = googleQuery.query();
             
-            KeywordList key = new KeywordList();
-			key.add();
-			
-            ArrayList<WebPage> webPages = new ArrayList<>();
-            for (String title : searchResults.keySet()) {
-                String url = searchResults.get(title);
-                WebPage webPage = new WebPage(url, title);
-                webPages.add(webPage);
-            }
+            for (Map.Entry<String, String> entry : searchResults.entrySet()) {
+              String title = entry.getKey();
+              String url = entry.getValue();
+              
+              // 創建獨立的 WebTree，以每個搜尋結果為根節點
+              WebPage rootPage = new WebPage(url, title);
+              WebTree webTree = new WebTree(rootPage);
             
-            for (WebPage rootPage : webPages) {
-                GoogleQuery subPageQuery = new GoogleQuery(rootPage.name); // 使用網頁標題作為關鍵字搜索
-                HashMap<String, String> subPageResults = subPageQuery.query();
-                for (String subTitle : subPageResults.keySet()) {
-                    String subUrl = subPageResults.get(subTitle);
-                    WebPage subPage = new WebPage(subUrl, subTitle);
-                    rootPage.addChild(subPage); // 將子網頁添加為根節點的子節點
+         //  KeywordList key = new KeywordList();
+              KeywordCounter counter = new KeywordCounter(url); 
+              String rootContent = counter.fetchContent(); // Fetch content of the root URL
 
-			
-                    lcs lcs = new lcs();
-                    lcs.find(subTitle);
-                    for (Keyword derivedKeyword : lcs.lst()) {
-                        key.keywords.add(derivedKeyword);
-                    }
-                }
-            }
-            
-            for (WebPage rootPage : webPages) {
-                WebTree webTree = new WebTree(rootPage);
-                webTree.setPostOrderScore(key.keywords);
-                webTree.eularPrintTree();
-                // 可以在這裡進行其他操作，如節點排名等
-            }
-            
+              Document rootDoc = Jsoup.parse(rootContent);
+              Elements subpageLinks = rootDoc.select("a[href]"); // Find links in the content
 
+              // Add subpages as child nodes to the root node
+              for (Element link : subpageLinks) {
+                  String subpageTitle = link.text(); 
+                  String subpageUrl = link.attr("abs:href"); 
+
+                  WebPage subpage = new WebPage(subpageUrl, subpageTitle);
+                  WebNode subpageNode = new WebNode(subpage);
+                  webTree.root.addChild(subpageNode);
+              }
+            webTree.setPostOrderScore(new KeywordList().add());
+            webTree.eularPrintTree();
+            }   
     } catch (IOException e) {
         e.printStackTrace();
     }
 		}
-}
-}
-		
- 
 
-            
-        
-        
-    
-
-				
-		
+}
+}	
