@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google-like Search Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #545454;
+      background-image: url(picture/TV.jpg);
+      background-repeat: no-repeat;
+      background-position: -250px 0px;
+      background-size: 2000px 800px;
+    }
+    .container {
+      max-width: 800px;
+      height: 300px;
+      margin: 200px auto;
+      background-color: #545454;
+      padding: 20px;
+      /*box-shadow: 0 0 10px rgba(0,0,0,0.1);*/
+      border-radius: 8px;
+      text-align: center;
+    }
+    .search-box {
+      margin: 30px auto;
+      display: flex;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .search-input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+    }
+    .search-button {
+      background-color: #4285f4;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <img src="picture/logo.png" width="300" height="150" alt="Google Logo">
+    <form action="https://www.google.com/search" method="GET">
+      <div class="search-box">
+        <input type="text" name="q" class="search-input" placeholder="Search...">
+        <button type="submit" class="search-button">Search</button>
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>
