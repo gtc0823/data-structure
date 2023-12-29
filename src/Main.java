@@ -4,6 +4,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -17,7 +19,8 @@ public class Main
 {
 	public static void main(String[] args) throws IOException
 	{
-		KeywordList Keywords = new KeywordList();
+		ArrayList<WebTree> trees = new ArrayList<>();
+		 KeywordList Keywords = new KeywordList();
  		Keywords.add(new Keyword("金馬獎", 100.0));
  		Keywords.add(new Keyword("最佳", 8.0));
  		Keywords.add(new Keyword("推薦", 6.0));
@@ -36,20 +39,26 @@ public class Main
             HashMap<String, String> searchResults = googleQuery.query();
             
             for (Map.Entry<String, String> entry : searchResults.entrySet()) {
-            	String result = entry.getValue();
-                 String url = entry.getKey();
-                Keywords.find(result); // find the LCS with this result
+            	String result = entry.getKey();
+                 String url = entry.getValue();
+                Keywords.find(url); // find the LCS with this result
                 
                 WebPage rootPage = new WebPage(url, result);
                 WebTree tree = new WebTree(rootPage);
-                
-                ArrayList<WebNode> sortedNodes = tree.getSortedNodes();
-
+          
                 
                 tree.setPostOrderScore(Keywords.getlst());
-
-        		// 顯示結果
-        		tree.eularPrintTree();
+                trees.add(tree);
+            }
+            Collections.sort(trees, new Comparator<WebTree>() {
+                @Override
+                public int compare(WebTree tree1, WebTree tree2) {
+                    return Double.compare(tree2.root.nodeScore, tree1.root.nodeScore);
+                }
+            });
+            
+            for (WebTree tree1 : trees) {
+                tree1.eularPrintTree(); // 打印每棵排序後的樹
             }
             
             
