@@ -79,7 +79,7 @@ public class GoogleQuery
 					continue;
 				}
 				
-				System.out.println("Title: "+title + " , url: " + citeUrl);
+			//	System.out.println("Title: "+title + " , url: " + citeUrl);
 				
 				//put title and pair into HashMap
 				retVal.put(title, citeUrl);
