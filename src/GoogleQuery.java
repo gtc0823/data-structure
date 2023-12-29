@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public class GoogleQuery
 	public GoogleQuery(String searchKeyword)
 	{
 		this.searchKeyword = searchKeyword;
-		this.url = "http://www.google.com/search?q="+searchKeyword+"&oe=utf8&num=20";
+		this.url = "http://www.google.com/search?q="+searchKeyword+"電影"+"&oe=utf8&num=20";
 	}
 	
 	private String fetchContent() throws IOException
@@ -71,18 +72,38 @@ public class GoogleQuery
 		{
 			try 
 			{
-				String citeUrl = li.select("a").get(0).attr("href");
-				String title = li.select("a").get(0).select(".vvjwJb").text();
-				
-				if(title.equals("")) 
-				{
-					continue;
-				}
-				
-			//	System.out.println("Title: "+title + " , url: " + citeUrl);
-				
-				//put title and pair into HashMap
-				retVal.put(title, citeUrl);
+				 Element linkElement = li.select("a").first();
+	                if (linkElement == null) {
+	                    continue;
+	                }
+
+	                String linkHref = linkElement.attr("href");
+	                if (linkHref.startsWith("/url?q=")) {
+	                    linkHref = linkHref.substring(7);
+	                    int end = linkHref.indexOf("&");
+	                    if (end != -1) {
+	                        linkHref = linkHref.substring(0, end);
+	                    }
+
+	                    // Decode URL
+	                    linkHref = java.net.URLDecoder.decode(linkHref, "UTF-8");
+	                    // Check if the decoded string is a valid URL
+	                    try {
+	                        new URL(linkHref);
+	                    } catch (MalformedURLException e) {
+	                        continue; // Skip this result if the URL is not valid
+	                    }
+	                } else {
+	                    continue; // Skip if not a valid link format
+	                }
+
+	                String title = linkElement.text();
+	                if (title.isEmpty()) {
+	                    continue;
+	                }
+
+	                retVal.put(title, linkHref);
+
 
 			} catch (IndexOutOfBoundsException e) 
 			{
