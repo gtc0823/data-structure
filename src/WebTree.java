@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class WebTree
 {
@@ -26,7 +27,29 @@ public class WebTree
 		startNode.setNodeScore(keywords);
 
 	}
+	
+	public static class NodeScoreComparator implements Comparator<WebNode> {
+	    public int compare(WebNode node1, WebNode node2) {
+	        return Double.compare(node2.nodeScore, node1.nodeScore); // Descending order
+	    }
+	}
+	
+	public ArrayList<WebNode> getSortedNodes() {
+	    ArrayList<WebNode> nodes = new ArrayList<>();
+	    collectNodes(root, nodes);
+	    nodes.sort(new NodeScoreComparator());
+	    return nodes;
+	}
 
+	private void collectNodes(WebNode node, ArrayList<WebNode> nodes) {
+	    if (node == null) return;
+	    nodes.add(node);
+	    for (WebNode child : node.children) {
+	        collectNodes(child, nodes);
+	    }
+	}
+	
+	
 	public void eularPrintTree()
 	{
 		eularPrintTree(root);
