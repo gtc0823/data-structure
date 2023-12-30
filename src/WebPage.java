@@ -14,6 +14,7 @@ public class WebPage
 		this.url = url;
 		this.name = name;
 		this.counter = new KeywordCounter(url);
+		this.children = new ArrayList<>();
 	}
 	
 	public void addChild(WebPage childPage) {
@@ -29,6 +30,11 @@ public class WebPage
 			double pagescore = counter.countKeyword(keyword.name) * keyword.weight;
 			score += pagescore;
 		}
+		for (WebPage child : children) {
+            child.setScore(keywords);
+            score += child.score;
+        }
+		
 		
 	}
 }

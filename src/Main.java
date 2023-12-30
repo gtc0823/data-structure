@@ -1,4 +1,6 @@
 import java.io.IOException;
+import java.net.URLEncoder;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -20,17 +22,19 @@ public class Main
 	public static void main(String[] args) throws IOException
 	{
 		ArrayList<WebTree> trees = new ArrayList<>();
-		 KeywordList Keywords = new KeywordList();
+		KeywordList Keywords = new KeywordList();
  		Keywords.add(new Keyword("金馬獎", 100.0));
+ 		Keywords.add(new Keyword("電影", 30.0));
  		Keywords.add(new Keyword("最佳", 8.0));
  		Keywords.add(new Keyword("推薦", 6.0));
  		Keywords.add(new Keyword("熱門", 6.0));
+ 		Keywords.add(new Keyword("劇情", 6.0));
  		Keywords.add(new Keyword("獲獎", 5.0));
- 		Keywords.add(new Keyword("必看", 4.0));
+ 		Keywords.add(new Keyword("票房", 4.0));
  		Keywords.add(new Keyword("高分", 3.0));
- 		Keywords.add(new Keyword("IMDb", 3.0));
+ 		Keywords.add(new Keyword("上映", 3.0));
  		
-		System.out.println("Type a keyword: ");
+ 		System.out.println("Type a keyword: ");
 		Scanner sc = new Scanner(System.in);
 		while (sc.hasNextLine()) {
 		try {
@@ -40,10 +44,22 @@ public class Main
             
             for (Map.Entry<String, String> entry : searchResults.entrySet()) {
             	String result = entry.getKey();
-                 String url = entry.getValue();
-                Keywords.find(url); // find the LCS with this result
+                String url = entry.getValue();
                 
+                Keywords.find(url); // find the LCS with this result
+
                 WebPage rootPage = new WebPage(url, result);
+                SubUrl subUrl = new SubUrl(url);
+                ArrayList<String> subUrls = subUrl.getResults();
+
+                //子網頁的部分
+                for (String childUrl : subUrls) {
+                    System.out.println("SubPage URL: " + childUrl);
+                    WebPage subPage = new WebPage(childUrl, "SubPage");
+                    rootPage.addChild(subPage);
+                    // 只加入一個子網頁，怕跑太久
+                    break;
+                }
                 WebTree tree = new WebTree(rootPage);
           
                 
