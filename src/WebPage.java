@@ -24,7 +24,7 @@ public class WebPage
 	public void setScore(ArrayList<Keyword> keywords) throws IOException
 	{
 		score = 0;
-		// YUR TURN
+		// YOUR TURN
 //		1. calculate the score of this webPage
 		for(Keyword keyword : keywords) {
 			double pagescore = counter.countKeyword(keyword.name) * keyword.weight;
