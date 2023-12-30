@@ -20,8 +20,17 @@ public class GoogleQuery
 	
 	public GoogleQuery(String searchKeyword)
 	{
+		
 		this.searchKeyword = searchKeyword;
-		this.url = "http://www.google.com/search?q="+searchKeyword+"電影"+"&oe=utf8&num=20";
+		try {
+			searchKeyword=java.net.URLEncoder.encode(searchKeyword,"utf-8");
+			this.url = "http://www.google.com/search?q="+searchKeyword+"電影"+"&oe=utf8&num=20";
+		}
+		catch (Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		
 	}
 	
 	private String fetchContent() throws IOException
@@ -97,7 +106,7 @@ public class GoogleQuery
 	                    continue; // Skip if not a valid link format
 	                }
 
-	                String title = linkElement.text();
+	                String title = linkElement.select(".vvjwJb").text();
 	                if (title.isEmpty()) {
 	                    continue;
 	                }
