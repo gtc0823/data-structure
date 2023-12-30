@@ -30,10 +30,10 @@ public class WebPage
 			double pagescore = counter.countKeyword(keyword.name) * keyword.weight;
 			score += pagescore;
 		}
-		for (WebPage child : children) {
+		/*for (WebPage child : children) {
             child.setScore(keywords);
             score += child.score;
-        }
+        }*/
 		
 		
 	}
