@@ -17,11 +17,12 @@ body {
       background-repeat: no-repeat;
       background-position: -250px 0px;
       background-size: 2000px 800px;
+      background-position: center top;
     }
     .container {
       max-width: 800px;
       height: 300px;
-      margin: 200px auto;
+      margin: 150px auto;
       background-color: #545454;
       padding: 20px;
       /*box-shadow: 0 0 10px rgba(0,0,0,0.1);*/
@@ -44,11 +45,13 @@ body {
       font-size: 16px;
     }
     .search-button {
-      background-color: #4285f4;
+      background-color: #A36D29;
       color: #fff;
       border: none;
       padding: 10px 20px;
       cursor: pointer;
+      font-size: 16px;
+      font-family: "Arial Black", sans-serif;
     }
     
 .button{
@@ -59,6 +62,17 @@ body {
 	left:50%;
 	top:50%;
 }
+
+.button-container {
+  position: absolute;
+  left: 50%;
+  bottom: 55%;
+  transform: translateX(-50%);
+  justify-content: space-between;
+  width: 200px; /* 調整按鈕區域的寬度 */
+}
+
+
 .border-style {
 	border-radius:75px/90px;
 }
@@ -283,45 +297,43 @@ function click80() {
 </head>
 <body>
 <form action='${requestUri}' method='get'>
-<div class = 'box'style = 'position:absolute;margin-top:530px;margin-left:635px;'></div>
-<div class='note'>
-<img src="images/musical-note.png" style = 'position:absolute;width:40px;height:40px;margin-top:520px' >
-</div> 
-<div class='note1'>
-<img src="images/musical-note.png" style = 'position:absolute;width:40px;height:40px;margin-top:520px' >
-</div> 
-<div class='note2'>
-<img src="images/musical-note-2.png" style = 'position:absolute;width:40px;height:40px;margin-top:520px' >
-</div>
-<div class='note3'>
-<img src="images/musical-note-2.png" style = 'position:absolute;width:40px;height:40px;margin-top:520px' >
-</div>  
+
+
 
 <div class="container">
+	<div class='note'>
+	<img src="images/musical-note.png" style = 'position:absolute;width:40px;height:40px;margin-top:520px;margin-left:320px' >
+	</div> 
+	<div class='note1'>
+	<img src="images/musical-note.png" style = 'position:absolute;width:40px;height:40px;margin-top:520px;margin-left:320px' >
+	</div> 
+	<div class='note2'>
+	<img src="images/musical-note-2.png" style = 'position:absolute;width:40px;height:40px;margin-top:520px;margin-left:320px' >
+	</div>
+	<div class='note3'>
+	<img src="images/musical-note-2.png" style = 'position:absolute;width:40px;height:40px;margin-top:520px;margin-left:320px' >
+	</div>  
     <img src="images/logo.png" width="300" height="150" alt="Google Logo">
     
       <div class="search-box">
         <input type="text" name="q" class="search-input" placeholder="Search...">
         <button type="submit" class="search-button">Search</button>
       </div>
+    
+    <div class="button-container">
+	<button type='button' class='button' name='button20' onclick='click10()' style='border-radius:10px;cursor:pointer;margin-left:-100px;margin-top:50px'>10</button>
 	
-  </div>
+	<button type='button' class='button' name='button40' onclick='click20()' style='border-radius:10px;cursor:pointer;margin-left:-47.5px;margin-top:50px'>20</button>
+	
+	<button type='button' class='button' name='button60' onclick='click40()' style='border-radius:10px;cursor:pointer;margin-left:2.5px;margin-top:50px'>40</button>
+	
+	<button type='button' class='button' name='button80' onclick='click80()' style='border-radius:10px;cursor:pointer;margin-left:52.5px;margin-top:50px'>80</button>
+	</div>
+	
+</div>
   
-<div>
-<button type='button' class='button' name='button20' onclick='click10()' style='border-radius:10px;cursor:pointer;margin-left:-100px;margin-top:100px'>10</button>
-</div>
-<div>
-<button type='button' class='button' name='button40' onclick='click20()' style='border-radius:10px;cursor:pointer;margin-left:-47.5px;margin-top:100px'>20</button>
-</div>
-<div>
-<button type='button' class='button' name='button60' onclick='click40()' style='border-radius:10px;cursor:pointer;margin-left:2.5px;margin-top:100px'>40</button>
-</div>
-<div>
-<button type='button' class='button' name='button80' onclick='click80()' style='border-radius:10px;cursor:pointer;margin-left:52.5px;margin-top:100px'>80</button>
-</div>
-<div>
-<input type='text' name='searchNum' value='10' style='color:#0489B1;border-style:none;background-color:#0489B1'>
-</div>
+
+
 <div>
 <a href ='http://localhost:8080/Final_Project/TestProject'></a>
 </div>
