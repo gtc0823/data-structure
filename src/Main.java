@@ -36,9 +36,15 @@ public class Main
  		
  		System.out.println("Type a keyword: ");
 		Scanner sc = new Scanner(System.in);
+		
 		while (sc.hasNextLine()) {
 		try {
+			
 			String keyword = sc.nextLine(); 
+			if (keyword.isEmpty()) {
+		        break;
+		    }
+			
             GoogleQuery googleQuery = new GoogleQuery(keyword);
             HashMap<String, String> searchResults = googleQuery.query();
             
@@ -49,30 +55,24 @@ public class Main
                 Keywords.find(url); // find the LCS with this result
 
                 WebPage rootPage = new WebPage(url, result);
-                WebTree tree = new WebTree(rootPage);
                 SubUrl subUrl = new SubUrl(url);
                 ArrayList<String> subUrls = subUrl.getResults();
 
                 //子網頁的部分
                 for (String childUrl : subUrls) {
-                    System.out.println("SubPage URL: " + childUrl);
                     WebPage subPage = new WebPage(childUrl, "SubPage");
-                    tree.root.addChild(new WebNode(subPage));
+                    rootPage.addChild(subPage);
                     // 只加入一個子網頁，怕跑太久
                     break;
                 }
-                
+                WebTree tree = new WebTree(rootPage);
           
                 
                 tree.setPostOrderScore(Keywords.getlst());
                 trees.add(tree);
             }
-            Collections.sort(trees, new Comparator<WebTree>() {
-                @Override
-                public int compare(WebTree tree1, WebTree tree2) {
-                    return Double.compare(tree2.root.nodeScore, tree1.root.nodeScore);
-                }
-            });
+            
+            quickSort(trees, 0, trees.size()-1);
             
             for (WebTree tree1 : trees) {
                 tree1.eularPrintTree(); // 打印每棵排序後的樹
@@ -82,8 +82,36 @@ public class Main
     } catch (IOException e) {
         e.printStackTrace();
     }
-		}
+	}
+		System.out.println("Type a keyword: ");
 
 }
+	public static void quickSort(ArrayList<WebTree> arr, int low, int high) {
+	    if (low < high) {
+	        int pi = partition(arr, low, high);
+
+	        quickSort(arr, low, pi-1);
+	        quickSort(arr, pi+1, high);
+	    }
+	}
+
+	public static int partition(ArrayList<WebTree> arr, int low, int high) {
+	    WebTree pivot = arr.get(high);
+	    int i = (low-1);
+	    for (int j=low; j<high; j++) {
+	        if (arr.get(j).root.nodeScore > pivot.root.nodeScore) {
+	            i++;
+
+	            Collections.swap(arr, i, j);
+	        }
+	    }
+
+	    Collections.swap(arr, i+1, high);
+
+	    return i+1;
+	}
+	
 }	
+
+
 
