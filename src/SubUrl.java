@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -28,40 +29,64 @@ public class SubUrl {
     private String fetchContent(String urlStr) throws IOException {
         try {
             URL url = new URL(urlStr);
-            URLConnection conn = url.openConnection();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-            try (InputStream in = conn.getInputStream();
-                 BufferedReader br = new BufferedReader(new InputStreamReader(in, "utf-8"))) {
+            // 設定你的請求屬性，例如 User-Agent
+         // 在 fetchContent 方法中的 URLConnection 前加上以下代碼
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+            conn.setRequestProperty("Referer", "http://www.google.com/");
+            conn.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
-                StringBuilder retVal = new StringBuilder();
-                String line;
 
-                while ((line = br.readLine()) != null) {
-                    retVal.append(line).append("\n");
+
+            int responseCode = conn.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                try (InputStream in = conn.getInputStream();
+                     BufferedReader br = new BufferedReader(new InputStreamReader(in, "utf-8"))) {
+
+                    StringBuilder retVal = new StringBuilder();
+                    String line;
+
+                    while ((line = br.readLine()) != null) {
+                        retVal.append(line).append("\n");
+                    }
+
+                    return retVal.toString();
                 }
-
-                return retVal.toString();
-            }
-        } catch (IOException e) {
-        	if (e.getMessage().contains("Server returned HTTP response code: 403")) {
-                // 捕獲 HTTP 403 Forbidden 的例外，返回空字串
+            } else if (responseCode == HttpURLConnection.HTTP_FORBIDDEN) {
+                // HTTP 403 Forbidden
                 System.out.println("HTTP 403 Forbidden for URL: " + urlStr);
-                return "";
+                return null;
+            } else if (responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
+                // HTTP 400 Bad Request
+                System.out.println("HTTP 400 Bad Request for URL: " + urlStr);
+                return null;
             } else {
-                e.printStackTrace();
-                return "";
+                // 其他錯誤處理
+                System.out.println("Error: " + responseCode + " for URL: " + urlStr);
+                return null;
             }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "";
         }
     }
 
-
-
     public ArrayList<String> getResults() {
-        if (content == null) {
+        if (content == null || content.isEmpty()) {
             return new ArrayList<>();
         }
 
-        Document doc = Jsoup.parse(content);
+        Document doc = null;
+        try {
+            doc = Jsoup.parse(content);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+
         Elements aTags = doc.select("a");
 
         ArrayList<String> resultUrls = new ArrayList<>();
@@ -82,6 +107,7 @@ public class SubUrl {
     }
 
 
+
     private boolean isValidHref(String href) {
         try {
             URL url = new URL(href);
@@ -90,9 +116,13 @@ public class SubUrl {
             return false;
         }
     }
-
-
 }
+
+
+
+
+
+
 
 
 
