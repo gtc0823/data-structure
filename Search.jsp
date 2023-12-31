@@ -63,14 +63,7 @@ body {
 	top:50%;
 }
 
-.button-container {
-  position: absolute;
-  left: 50%;
-  bottom: 55%;
-  transform: translateX(-50%);
-  justify-content: space-between;
-  width: 200px; /* 調整按鈕區域的寬度 */
-}
+
 
 
 .border-style {
@@ -316,20 +309,25 @@ function click80() {
     <img src="images/logo.png" width="300" height="150" alt="Google Logo">
     
       <div class="search-box">
-        <input type="text" name="q" class="search-input" placeholder="Search...">
+        <input type="text" name="keyword" class="search-input" placeholder="Search...">
         <button type="submit" class="search-button">Search</button>
       </div>
     
-    <div class="button-container">
+    <div>
 	<button type='button' class='button' name='button20' onclick='click10()' style='border-radius:10px;cursor:pointer;margin-left:-100px;margin-top:50px'>10</button>
-	
+	</div>
+	<div>
 	<button type='button' class='button' name='button40' onclick='click20()' style='border-radius:10px;cursor:pointer;margin-left:-47.5px;margin-top:50px'>20</button>
-	
+	</div>
+	<div>
 	<button type='button' class='button' name='button60' onclick='click40()' style='border-radius:10px;cursor:pointer;margin-left:2.5px;margin-top:50px'>40</button>
-	
+	</div>
+	<div>
 	<button type='button' class='button' name='button80' onclick='click80()' style='border-radius:10px;cursor:pointer;margin-left:52.5px;margin-top:50px'>80</button>
 	</div>
-	
+	<div>
+<input type='text' name='searchNum' value='10' style='color:#545454;border-style:none;background-color:#545454'>
+</div>
 </div>
   
 
