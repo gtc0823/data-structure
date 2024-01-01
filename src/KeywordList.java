@@ -26,7 +26,7 @@ public class KeywordList {
 				maxIndex = i;
 			}
 		}
-		System.out.println(s + ": " + lst.get(maxIndex).toString());
+		//System.out.println(s + ": " + lst.get(maxIndex).toString());
 	}
 	
 	public int findLCS(String x, String y){

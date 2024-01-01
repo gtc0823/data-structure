@@ -52,20 +52,21 @@ public class Main
             	String result = entry.getKey();
                 String url = entry.getValue();
                 
-                Keywords.find(url); // find the LCS with this result
+                //Keywords.find(url); // find the LCS with this result
 
                 WebPage rootPage = new WebPage(url, result);
+                WebTree tree = new WebTree(rootPage);
                 SubUrl subUrl = new SubUrl(url);
                 ArrayList<String> subUrls = subUrl.getResults();
 
                 //子網頁的部分
                 for (String childUrl : subUrls) {
                     WebPage subPage = new WebPage(childUrl, "SubPage");
-                    rootPage.addChild(subPage);
+                    tree.root.addChild(new WebNode(subPage));
                     // 只加入一個子網頁，怕跑太久
                     break;
                 }
-                WebTree tree = new WebTree(rootPage);
+                
           
                 
                 tree.setPostOrderScore(Keywords.getlst());

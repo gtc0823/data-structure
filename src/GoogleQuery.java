@@ -89,7 +89,7 @@ public class GoogleQuery
 	                    int responseCode = urlConnection.getResponseCode();
 
 	                    if (responseCode == HttpURLConnection.HTTP_OK) {
-	                        retVal.put(linkElement.text(), linkHref);
+	                        retVal.put(linkElement.select(".vvjwJb").text(), linkHref);
 	                    } else if (responseCode == HttpURLConnection.HTTP_FORBIDDEN) {
 	                        // HTTP 403 Forbidden
 	                        System.out.println("HTTP 403 Forbidden for URL: " + linkHref);
