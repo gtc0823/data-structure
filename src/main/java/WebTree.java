@@ -54,6 +54,7 @@ public class WebTree
 	{
 		//eularPrintTree(root);
 		System.out.println(root.webPage.url + " : " + root.webPage.name);
+		
 	}
 
 	private void eularPrintTree(WebNode startNode)
